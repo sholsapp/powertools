@@ -53,6 +53,7 @@ setup(
   url='https://github.com/sholsapp/powertools',
   packages=find_packages(),
   install_requires=[
+    'argparse',
     'cryptography',
   ],
   tests_require=[
