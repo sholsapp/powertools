@@ -6,7 +6,7 @@ import subprocess
 from setuptools import setup, find_packages, Command
 
 
-VERSION = '0.0.6'
+VERSION = '0.0.7'
 
 
 entry_points = {
@@ -59,6 +59,7 @@ setup(
   install_requires=[
     'argparse',
     'cryptography',
+    'requests',
   ],
   tests_require=[
     'pytest',
