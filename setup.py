@@ -9,6 +9,7 @@ from setuptools import setup, find_packages, Command
 entry_points = {
   'console_scripts': [
     'vinit = powertools.bin.vinit:main',
+    'bcp = powertools.bin.bcp:main',
   ],
 }
 
