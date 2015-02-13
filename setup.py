@@ -10,6 +10,8 @@ entry_points = {
   'console_scripts': [
     'vinit = powertools.bin.vinit:main',
     'bcp = powertools.bin.bcp:main',
+    'enc = powertools.bin.crypt:enc',
+    'dec = powertools.bin.crypt:dec',
   ],
 }
 
@@ -50,7 +52,9 @@ setup(
   author_email='sholsapp@gmail.com',
   url='https://github.com/sholsapp/powertools',
   packages=find_packages(),
-  install_requires=[],
+  install_requires=[
+    'cryptography',
+  ],
   tests_require=[
     'pytest',
   ],
