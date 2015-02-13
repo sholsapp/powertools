@@ -6,12 +6,16 @@ import subprocess
 from setuptools import setup, find_packages, Command
 
 
+VERSION = '0.0.6'
+
+
 entry_points = {
   'console_scripts': [
     'vinit = powertools.bin.vinit:main',
     'bcp = powertools.bin.bcp:main',
     'enc = powertools.bin.crypt:enc',
     'dec = powertools.bin.crypt:dec',
+    'poll = powertools.bin.poll:main',
   ],
 }
 
@@ -46,7 +50,7 @@ class Pex(Command):
 
 setup(
   name='powertools',
-  version='0.0.5',
+  version=VERSION,
   description="Framework and utility code for running public key infrastructure.",
   author='Stephen Holsapple',
   author_email='sholsapp@gmail.com',
