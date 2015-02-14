@@ -1,5 +1,24 @@
 #!/usr/bin/env python
 
+"""Back up a file before destroying it.
+
+Have you ever accidently copied over a file you actually didn't mean to blow
+away? Use *bcp* to back up files before they're irrecoverably destroyed.
+
+Use *bcp* in the following way.
+
+  $ cat trash.txt
+  I'm trash!
+  $ cat important.txt
+  I'm important!
+  $ bcp trash.txt important.txt
+  $ cat important.txt
+  I'm trash!
+  $ cat important.txt.2015-02-14-12-10-33
+  I'm important!
+
+"""
+
 import argparse
 import datetime
 import logging
@@ -23,7 +42,7 @@ default_virtualenv = os.path.join(
 
 def main():
 
-  parser = argparse.ArgumentParser(description='Back up a file before copying over it.')
+  parser = argparse.ArgumentParser(description=__doc__)
   parser.add_argument('src')
   parser.add_argument('dst')
   args = parser.parse_args()

@@ -1,5 +1,21 @@
 #!/usr/bin/env python
 
+"""Create a virtualenv.
+
+Create a virtualenv using the current working direction as a name. Why use the
+current working directory to name the virtualenv? Typically, a project is
+organized into a directory.
+
+Take https://github.com/sholsapp/powertools. Use *vinit* in the following way.
+
+  $ git clone https://github.com/sholsapp/powertools
+  $ cd powertools
+  $ vinit
+  $ source activate
+  $ python setup.py develop
+
+"""
+
 import argparse
 import logging
 import os
@@ -22,8 +38,9 @@ default_virtualenv = os.path.join(
 
 def main():
 
-  parser = argparse.ArgumentParser(description='Create or activate a virtualenv.')
-  parser.add_argument('-d', '--dest-directory', default=default_virtualenv)
+  parser = argparse.ArgumentParser(description=__doc__)
+  parser.add_argument('-d', '--dest-directory', default=default_virtualenv,
+                      help="Where to create the virtualenv instead of %(default)s.")
   args = parser.parse_args()
 
   if not os.path.exists(args.dest_directory):
