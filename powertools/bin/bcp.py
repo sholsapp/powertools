@@ -42,7 +42,8 @@ default_virtualenv = os.path.join(
 
 def main():
 
-  parser = argparse.ArgumentParser(description=__doc__)
+  parser = argparse.ArgumentParser(description=__doc__,
+                                   formatter_class=argparse.RawDescriptionHelpFormatter)
   parser.add_argument('src')
   parser.add_argument('dst')
   args = parser.parse_args()

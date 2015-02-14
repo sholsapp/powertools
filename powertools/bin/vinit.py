@@ -2,11 +2,10 @@
 
 """Create a virtualenv.
 
-Create a virtualenv using the current working direction as a name. Why use the
-current working directory to name the virtualenv? Typically, a project is
-organized into a directory.
+Create a virtualenv using the current working direction as a name, which is
+typically the project that you're isolating for development.
 
-Take https://github.com/sholsapp/powertools. Use *vinit* in the following way.
+Use *vinit* in the following way.
 
   $ git clone https://github.com/sholsapp/powertools
   $ cd powertools
@@ -38,7 +37,8 @@ default_virtualenv = os.path.join(
 
 def main():
 
-  parser = argparse.ArgumentParser(description=__doc__)
+  parser = argparse.ArgumentParser(description=__doc__,
+                                   formatter_class=argparse.RawDescriptionHelpFormatter)
   parser.add_argument('-d', '--dest-directory', default=default_virtualenv,
                       help="Where to create the virtualenv instead of %(default)s.")
   args = parser.parse_args()
