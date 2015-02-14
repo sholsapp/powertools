@@ -55,6 +55,9 @@ def pbkdf2_bin(data, salt, iterations=1000, keylen=24, hashfunc=None):
 
 def init_fernet(pass_prompt='Enter key'):
   password = getpass.getpass(pass_prompt)
+  # XXX: Fix this to use the system key chain and a ciphertext preamble to
+  # securely save either the salt or the password, currently we're not salting
+  # password.
   key = pbkdf2_hex(password, 'salt', iterations=1000, keylen=16, hashfunc=hashlib.sha512)
   safe = base64.b64encode(key)
   return Fernet(safe)
