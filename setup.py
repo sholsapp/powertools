@@ -59,6 +59,7 @@ setup(
   install_requires=[
     'argparse',
     'cryptography',
+    'keyring',
     'requests',
   ],
   tests_require=[

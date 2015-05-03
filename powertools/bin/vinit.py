@@ -49,16 +49,9 @@ def main():
       args.dest_directory,
     ])
 
-  subprocess.check_call([
-    'ln', '-s', os.path.join(args.dest_directory, 'bin', 'activate'), 'activate',
-  ])
+  if not os.path.exists('activate'):
+    subprocess.check_call([
+      'ln', '-s', os.path.join(args.dest_directory, 'bin', 'activate'), 'activate',
+    ])
 
-
-if __name__ == '__main__':
-  try:
-    main()
-    sys.exit(0)
-  except Exception as e:
-    log.exception('Unhandled exception.')
-    sys.exit(1)
-
+  print u"Congratulations! \U0001F37A"
