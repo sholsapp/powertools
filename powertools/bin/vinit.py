@@ -18,6 +18,7 @@ Use *vinit* in the following way.
 import argparse
 import logging
 import os
+import shutil
 import subprocess
 import sys
 
@@ -40,10 +41,14 @@ def main():
   parser = argparse.ArgumentParser(description=__doc__,
                                    formatter_class=argparse.RawDescriptionHelpFormatter)
   parser.add_argument('-d', '--dest-directory', default=default_virtualenv,
-                      help="Where to create the virtualenv instead of %(default)s.")
+                      help='Where to create the virtualenv instead of %(default)s.')
+  parser.add_argument('-r', '--recreate', action='store_true',
+                      help='Recreate the virtualenv if it already exists.')
   args = parser.parse_args()
 
-  if not os.path.exists(args.dest_directory):
+  if not os.path.exists(args.dest_directory) or args.recreate:
+    if os.path.exists(args.dest_directory):
+      shutil.rmtree(args.dest_directory)
     subprocess.check_call([
       'virtualenv',
       args.dest_directory,
