@@ -52,10 +52,14 @@ def main():
     if os.path.exists(args.dest_directory):
       shutil.rmtree(args.dest_directory)
     subprocess.check_call(['virtualenv', args.dest_directory])
-    subprocess.check_call(['pip', 'install', 'pip', '--upgrade'])
+    subprocess.check_call([
+      os.path.join(args.dest_directory, 'bin', 'pip'),
+      'install', 'pip', '--upgrade'])
 
   for requirement in args.requirement:
-    subprocess.check_call(['pip', 'install', requirement])
+    subprocess.check_call([
+      os.path.join(args.dest_directory, 'bin', 'pip'),
+      'install', requirement])
 
   if not os.path.exists('activate'):
     subprocess.check_call(['ln', '-s', os.path.join(args.dest_directory, 'bin', 'activate'), 'activate'])
