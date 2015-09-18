@@ -23,16 +23,27 @@ Then admire your new data in your database named ./dbfy.db.
 from contextlib import contextmanager
 import datetime
 import json
+import logging
 import sys
 
-from sqlalchemy import create_engine, Column, DateTime, String, Integer
+from sqlalchemy import create_engine, Column, DateTime, String, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import click
 
 
+log = logging.getLogger(__name__)
+
+
 Base = declarative_base()
 session = sessionmaker()
+
+
+_type_map = {
+  int: Integer,
+  float: Float,
+  basestring: String,
+}
 
 
 @contextmanager
@@ -60,10 +71,13 @@ def main(database, table):
   session.configure(bind=engine)
 
   try:
-    data = json.loads(sys.stdin.read())
+    raw = json.loads(sys.stdin.read())
   except Exception as e:
     click.secho('-', fg='red')
     sys.exit(1)
+
+  if not isinstance(raw, list):
+    raw = [raw]
 
   fields = {
     '__tablename__': table,
@@ -71,10 +85,13 @@ def main(database, table):
     'created': Column(DateTime, default=datetime.datetime.utcnow),
   }
 
-  for data_key, data_value in data.iteritems():
-    # TODO: Preserve the data value's type here, it's not hard, you're just
-    # lazy and tired today...
-    fields[data_key] = Column(String)
+  for row_key, row_value in raw[0].iteritems():
+    try:
+      fields[row_key] = Column(_type_map[type(row_value)]())
+    except Exception as e:
+      log.debug('No mapping for type %s. Defaulting to storing as string.', type(row_value))
+      click.secho('~', fg='yellow', nl=False)
+      fields[row_key] = Column(String)
 
   def init(self, **kwargs):
     for kwarg in kwargs:
@@ -86,9 +103,12 @@ def main(database, table):
 
   Base.metadata.create_all(engine)
 
-  with session_scope() as s:
-    t = Table(**data)
-    s.add(t)
+  for row in raw:
 
-  click.secho('+', fg='green')
+    with session_scope() as s:
+      t = Table(**row)
+      s.add(t)
+    click.secho('+', fg='green', nl=False)
+
+  click.secho('')
   sys.exit(0)
