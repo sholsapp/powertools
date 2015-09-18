@@ -6,7 +6,7 @@ import subprocess
 from setuptools import setup, find_packages, Command
 
 
-VERSION = '0.0.9'
+VERSION = '0.0.10'
 
 
 entry_points = {
@@ -16,6 +16,7 @@ entry_points = {
     'enc = powertools.bin.crypt:enc',
     'dec = powertools.bin.crypt:dec',
     'poll = powertools.bin.poll:main',
+    'dbfy = powertools.bin.dbfy:main',
   ],
 }
 
@@ -58,6 +59,8 @@ setup(
   packages=find_packages(),
   install_requires=[
     'argparse',
+    'click',
+    'SQLAlchemy',
     'cryptography',
     'keyring',
     'requests',
