@@ -46,12 +46,18 @@ def main():
                       help='Create a new virtualenv if it already exists.')
   parser.add_argument('-r', '--requirement', action='append', default=[],
                       help='Pip-style requirements to bootstrap the virtualenv with.')
+  parser.add_argument('--system-site-packages', action='store_true',
+                      help='Wrapper over virtualenv --system-site-packages option.')
   args = parser.parse_args()
 
   if not os.path.exists(args.dest_directory) or args.new:
     if os.path.exists(args.dest_directory):
       shutil.rmtree(args.dest_directory)
-    subprocess.check_call(['virtualenv', args.dest_directory])
+    virtualenv_cmd = ['virtualenv']
+    if args.system_site_packages:
+      virtualenv_cmd.append('--system-site-packages')
+    virtualenv_cmd.append(args.dest_directory)
+    subprocess.check_call(virtualenv_cmd)
     subprocess.check_call([
       os.path.join(args.dest_directory, 'bin', 'pip'),
       'install', 'pip', '--upgrade'])
